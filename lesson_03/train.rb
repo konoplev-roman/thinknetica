@@ -13,8 +13,10 @@ class Train
     @speed = 0
   end
 
-  def accelerate_by(value)
+  def change_speed_by(value)
     @speed += value
+
+    @speed = 0 if @speed.negative?
   end
 
   def stop
