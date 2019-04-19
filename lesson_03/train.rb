@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class Train
-  attr_reader :qty_wagons
+  attr_reader :wagons_quantity
   attr_reader :speed
   attr_reader :type
 
-  def initialize(number, type, qty_wagons)
+  def initialize(number, type, wagons_quantity)
     @number = number
     @type = type
-    @qty_wagons = qty_wagons
+    @wagons_quantity = wagons_quantity
 
     @speed = 0
   end
@@ -22,11 +22,11 @@ class Train
   end
 
   def attach_wagon
-    @qty_wagons += 1 if @speed.zero?
+    @wagons_quantity += 1 if @speed.zero?
   end
 
   def detach_wagon
-    @qty_wagons -= 1 if @speed.zero? && @qty_wagons.positive?
+    @wagons_quantity -= 1 if @speed.zero? && @wagons_quantity.positive?
   end
 
   def route=(route)
