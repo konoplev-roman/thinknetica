@@ -25,21 +25,53 @@ module Railway
       print_help
 
       loop do
-        print "\n> "
+        print "\nSelect number: "
 
-        command = gets.chomp.downcase.split(/\s/)
-
-        case command.shift
-        when 'exit'
+        case gets.to_i
+        when 0
           exit
-        when 'help'
-          print_help
-        when 'stations'
-          command_with_stations(command)
-        when 'routes'
-          command_with_routes(command)
-        when 'trains'
-          command_with_trains(command)
+        when 1
+          stations_list
+        when 2
+          station_create
+        when 3
+          station_delete
+        when 4
+          station_trains_list
+        when 5
+          station_trains_list_by_type
+        when 6
+          routes_list
+        when 7
+          route_create
+        when 8
+          route_delete
+        when 9
+          route_stations_list
+        when 10
+          route_station_add
+        when 11
+          route_station_delete
+        when 12
+          type_train_list
+        when 13
+          type_wagon_list
+        when 14
+          trains_list
+        when 15
+          train_create
+        when 16
+          train_delete
+        when 17
+          train_wagon_add
+        when 18
+          train_wagon_delete
+        when 19
+          train_route_add
+        when 20
+          train_go_forward
+        when 21
+          train_go_back
         else
           raise CliError, 'Invalid command'
         end
@@ -174,96 +206,32 @@ module Railway
       puts <<~HELP
         List of available commands:
 
-        stations list \t\t - Show station list
-        stations create \t - Create station
-        stations delete \t - Delete the station
-        stations trains \t - Show train list at the station
-        stations trains_by \t - Show train list by type at the station
+        0 - Exit
 
-        routes list \t\t - Show route list
-        routes create \t\t - Create route
-        routes delete \t\t - Delete the route
-        routes stations \t - Show station list at the route
-        routes station_add \t - Add the station to the route
-        routes station_delete \t - Delete the station from the route
+        1 - Show station list
+        2 - Create station
+        3 - Delete the station
+        4 - Show train list at the station
+        5 - Show train list by type at the station
 
-        trains type \t\t - Show types of trains
-        trains wagon_type \t - Show types of wagons
-        trains list \t\t - Show train list
-        trains create \t\t - Create train
-        trains delete \t\t - Delete the train
-        trains wagon_add \t - To attach the wagon to the train
-        trains wagon_delete \t - To detach the wagon to the train
-        trains route_add \t - Set the train to the route
-        trains go_forward \t - To send the train forward
-        trains go_back \t\t - To send the train back
+        6 - Show route list
+        7 - Create route
+        8 - Delete the route
+        9 - Show station list at the route
+        10 - Add the station to the route
+        11 - Delete the station from the route
 
-        help \t\t\t - Print command list
-        exit \t\t\t - Exit
+        12 - Show types of trains
+        13 - Show types of wagons
+        14 - Show train list
+        15 - Create train
+        16 - Delete the train
+        17 - To attach the wagon to the train
+        18 - To detach the wagon to the train
+        19 - Set the train to the route
+        20 - To send the train forward
+        21 - To send the train back
       HELP
-    end
-
-    def command_with_stations(command)
-      case command.shift
-      when 'list'
-        stations_list
-      when 'create'
-        station_create
-      when 'delete'
-        station_delete
-      when 'trains'
-        station_trains_list
-      when 'trains_by'
-        station_trains_list_by_type
-      else
-        raise CliError, 'Invalid command'
-      end
-    end
-
-    def command_with_routes(command)
-      case command.shift
-      when 'list'
-        routes_list
-      when 'create'
-        route_create
-      when 'delete'
-        route_delete
-      when 'stations'
-        route_stations_list
-      when 'station_add'
-        route_station_add
-      when 'station_delete'
-        route_station_delete
-      else
-        raise CliError, 'Invalid command'
-      end
-    end
-
-    def command_with_trains(command)
-      case command.shift
-      when 'type'
-        type_train_list
-      when 'wagon_type'
-        type_wagon_list
-      when 'list'
-        trains_list
-      when 'create'
-        train_create
-      when 'delete'
-        train_delete
-      when 'wagon_add'
-        train_wagon_add
-      when 'wagon_delete'
-        train_wagon_delete
-      when 'route_add'
-        train_route_add
-      when 'go_forward'
-        train_go_forward
-      when 'go_back'
-        train_go_back
-      else
-        raise CliError, 'Invalid command'
-      end
     end
 
     # --------------------------------------------------------------------------
