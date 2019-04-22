@@ -29,7 +29,7 @@ module Railway
 
         case gets.to_i
         when 0
-          exit
+          break
         when 1
           stations_list
         when 2
