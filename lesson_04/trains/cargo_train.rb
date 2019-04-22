@@ -5,7 +5,7 @@ module Railway
     def initialize(number)
       super
 
-      @available_type_wagons = [CargoWagon]
+      @available_type_wagons = %i[cargo]
     end
 
     def self.to_s

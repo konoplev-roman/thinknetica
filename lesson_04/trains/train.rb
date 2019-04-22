@@ -23,7 +23,7 @@ module Railway
     end
 
     def attach_wagon(wagon)
-      @wagons.push(wagon) if @available_type_wagons.include?(wagon.class) && @speed.zero?
+      @wagons.push(wagon) if @available_type_wagons.include?(wagon.type) && @speed.zero?
     end
 
     def detach_wagon(wagon)
