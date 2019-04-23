@@ -28,52 +28,29 @@ module Railway
         print "\nSelect number: "
 
         case gets.to_i
-        when 0
-          break
-        when 1
-          stations_list
-        when 2
-          station_create
-        when 3
-          station_delete
-        when 4
-          station_trains_list
-        when 5
-          station_trains_list_by_type
-        when 6
-          routes_list
-        when 7
-          route_create
-        when 8
-          route_delete
-        when 9
-          route_stations_list
-        when 10
-          route_station_add
-        when 11
-          route_station_delete
-        when 12
-          type_train_list
-        when 13
-          type_wagon_list
-        when 14
-          trains_list
-        when 15
-          train_create
-        when 16
-          train_delete
-        when 17
-          train_wagon_add
-        when 18
-          train_wagon_delete
-        when 19
-          train_route_add
-        when 20
-          train_go_forward
-        when 21
-          train_go_back
-        else
-          raise CliError, 'Invalid command'
+        when 0 then break
+        when 1 then stations_list
+        when 2 then station_create
+        when 3 then station_delete
+        when 4 then station_trains_list
+        when 5 then station_trains_list_by_type
+        when 6 then routes_list
+        when 7 then route_create
+        when 8 then route_delete
+        when 9 then route_stations_list
+        when 10 then route_station_add
+        when 11 then route_station_delete
+        when 12 then type_train_list
+        when 13 then type_wagon_list
+        when 14 then trains_list
+        when 15 then train_create
+        when 16 then train_delete
+        when 17 then train_wagon_add
+        when 18 then train_wagon_delete
+        when 19 then train_route_add
+        when 20 then train_go_forward
+        when 21 then train_go_back
+        else raise CliError, 'Invalid command'
         end
       rescue CliError => e
         puts e.message
