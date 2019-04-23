@@ -2,6 +2,8 @@
 
 module Railway
   class Train
+    include Manufacturer
+
     attr_reader :number, :speed, :wagons
 
     def initialize(number)

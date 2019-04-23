@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'manufacturer'
 require_relative 'trains/train'
 require_relative 'trains/cargo_train'
 require_relative 'trains/passenger_train'
