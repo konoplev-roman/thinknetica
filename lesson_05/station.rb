@@ -4,10 +4,14 @@ module Railway
   class Station
     attr_reader :name, :trains
 
+    @stations = []
+
     def initialize(name)
       @name = name
 
       @trains = []
+
+      self.class.all << self
     end
 
     def take_train(train)
@@ -24,6 +28,10 @@ module Railway
 
     def to_s
       name
+    end
+
+    def self.all
+      @stations
     end
   end
 end
