@@ -20,5 +20,9 @@ module Railway
     def stations
       [@start_station, *@intermediate_stations, @end_station]
     end
+
+    def to_s
+      "from #{stations.first} to #{stations.last}"
+    end
   end
 end

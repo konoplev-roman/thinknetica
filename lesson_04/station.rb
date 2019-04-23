@@ -21,5 +21,9 @@ module Railway
     def trains_by(klass)
       @trains.select { |train| train.class == klass }
     end
+
+    def to_s
+      name
+    end
   end
 end

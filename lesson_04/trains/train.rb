@@ -67,5 +67,9 @@ module Railway
 
       @station_index -= 1
     end
+
+    def to_s
+      "#{self.class} #{number}"
+    end
   end
 end
