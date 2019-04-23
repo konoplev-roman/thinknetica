@@ -2,6 +2,8 @@
 
 module Railway
   class Station
+    include InstanceCounter
+
     attr_reader :name, :trains
 
     @stations = []
@@ -12,6 +14,8 @@ module Railway
       @trains = []
 
       self.class.all << self
+
+      register_instance
     end
 
     def take_train(train)

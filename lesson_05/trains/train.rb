@@ -2,6 +2,7 @@
 
 module Railway
   class Train
+    include InstanceCounter
     include Manufacturer
 
     attr_reader :number, :speed, :wagons
@@ -16,6 +17,8 @@ module Railway
       @available_type_wagons = []
 
       @@trains << self
+
+      register_instance
     end
 
     def change_speed_by(value)
