@@ -6,12 +6,16 @@ module Railway
 
     attr_reader :number, :speed, :wagons
 
+    @@trains = []
+
     def initialize(number)
       @number = number
       @speed = 0
 
       @wagons = []
       @available_type_wagons = []
+
+      @@trains << self
     end
 
     def change_speed_by(value)
@@ -72,6 +76,10 @@ module Railway
 
     def to_s
       "#{self.class} #{number}"
+    end
+
+    def self.find(number)
+      @@trains.find { |train| train.number == number }
     end
   end
 end
