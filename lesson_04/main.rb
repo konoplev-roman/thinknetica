@@ -57,126 +57,6 @@ module Railway
       end
     end
 
-    # --------------------------------------------------------------------------
-
-    def stations_list
-      puts 'Available stations:'
-
-      @stations.each.with_index(1) { |s, i| puts "#{i}. #{s.name}" }
-    end
-
-    def station_create
-      @stations.push(Station.new(name))
-    end
-
-    def station_delete
-      @stations.delete(select_station)
-    end
-
-    def station_trains_list
-      puts 'Available trains at the stations'
-
-      select_station.trains.each.with_index(1) do |t, i|
-        puts "#{i}. #{t.class} #{t.number}"
-      end
-    end
-
-    def station_trains_list_by_type
-      puts 'Available trains by type at the station'
-
-      select_station.trains_by(select_class_train).each.with_index(1) do |t, i|
-        puts "#{i}. #{t.class} #{t.number}"
-      end
-    end
-
-    # --------------------------------------------------------------------------
-
-    def routes_list
-      puts 'Available routes:'
-
-      @routes.each.with_index(1) do |r, i|
-        puts "#{i}. from #{r.stations.first.name} to #{r.stations.last.name}"
-      end
-    end
-
-    def route_create
-      puts 'Select start and end station'
-
-      @routes.push(Route.new(select_station, select_station))
-    end
-
-    def route_delete
-      @routes.delete(select_route)
-    end
-
-    def route_stations_list
-      select_route.stations.each.with_index(1) { |s, i| puts "#{i}. #{s.name}" }
-    end
-
-    def route_station_add
-      puts 'Select route and station'
-
-      select_route.add_station(select_station)
-    end
-
-    def route_station_delete
-      puts 'Select route and station'
-
-      select_route.delete_station(select_station)
-    end
-
-    # --------------------------------------------------------------------------
-
-    def type_train_list
-      puts 'Available types of trains:'
-
-      CLASS_TRAINS.each.with_index(1) { |c, i| puts "#{i}. #{c}" }
-    end
-
-    def type_wagon_list
-      puts 'Available types of wagons:'
-
-      CLASS_WAGONS.each.with_index(1) { |c, i| puts "#{i}. #{c}" }
-    end
-
-    def trains_list
-      puts 'Available trains:'
-
-      @trains.each.with_index(1) { |t, i| puts "#{i}. #{t.class} #{t.number}" }
-    end
-
-    def train_create
-      @trains.push(select_class_train.new(name))
-    end
-
-    def train_delete
-      @trains.delete(select_train)
-    end
-
-    def train_wagon_add
-      select_train.attach_wagon(select_class_wagon.new)
-    end
-
-    def train_wagon_delete
-      train = select_train
-
-      train.detach_wagon(train.wagons.last)
-    end
-
-    def train_route_add
-      select_train.route = select_route
-    end
-
-    def train_go_forward
-      select_train.go_forward
-    end
-
-    def train_go_back
-      select_train.go_back
-    end
-
-    # --------------------------------------------------------------------------
-
     private
 
     def print_help
@@ -225,66 +105,116 @@ module Railway
       gets.chomp
     end
 
-    # --------------------------------------------------------------------------
-
-    def select_station
-      raise CliError, 'There are no stations' if @stations.empty?
-
-      stations_list
-
-      station = @stations[index]
-
-      raise CliError, 'The selected number does not exist' if station.nil?
-
-      station
+    def list(collection)
+      if collection.empty?
+        puts 'There are no elements'
+      else
+        collection.each.with_index(1) { |s, i| puts "#{i}. #{s}" }
+      end
     end
 
-    def select_route
-      raise CliError, 'There are no routes' if @routes.empty?
+    def choose(collection)
+      raise CliError, 'There are no elements' if collection.empty?
 
-      routes_list
+      list(collection)
 
-      route = @routes[index]
+      object = collection[index]
 
-      raise CliError, 'The selected number does not exist' if route.nil?
+      raise CliError, 'The selected number does not exist' if object.nil?
 
-      route
+      object
     end
 
-    def select_train
-      raise CliError, 'There are no trains' if @trains.empty?
-
-      trains_list
-
-      train = @trains[index]
-
-      raise CliError, 'The selected number does not exist' if train.nil?
-
-      train
+    def stations_list
+      list(@stations)
     end
 
-    def select_class_train
-      raise CliError, 'No train types available' if CLASS_TRAINS.empty?
-
-      type_train_list
-
-      klass = CLASS_TRAINS[index]
-
-      raise CliError, 'The selected number does not exist' if klass.nil?
-
-      klass
+    def station_create
+      @stations.push(Station.new(name))
     end
 
-    def select_class_wagon
-      raise CliError, 'No wagon types available' if CLASS_WAGONS.empty?
+    def station_delete
+      @stations.delete(choose(@stations))
+    end
 
-      type_wagon_list
+    def station_trains_list
+      list(choose(@stations).trains)
+    end
 
-      klass = CLASS_WAGONS[index]
+    def station_trains_list_by_type
+      list(choose(@stations).trains_by(choose(CLASS_TRAINS)))
+    end
 
-      raise CliError, 'The selected number does not exist' if klass.nil?
+    def routes_list
+      list(@routes)
+    end
 
-      klass
+    def route_create
+      puts 'Select start and end station'
+
+      @routes.push(Route.new(choose(@stations), choose(@stations)))
+    end
+
+    def route_delete
+      @routes.delete(choose(@routes))
+    end
+
+    def route_stations_list
+      list(choose(@routes).stations)
+    end
+
+    def route_station_add
+      puts 'Select route and station'
+
+      choose(@routes).add_station(choose(@stations))
+    end
+
+    def route_station_delete
+      puts 'Select route and station'
+
+      choose(@routes).delete_station(choose(@stations))
+    end
+
+    def trains_list
+      list(@trains)
+    end
+
+    def train_create
+      @trains.push(choose(CLASS_TRAINS).new(name))
+    end
+
+    def train_delete
+      @trains.delete(choose(@trains))
+    end
+
+    def train_wagon_add
+      choose(@trains).attach_wagon(choose(CLASS_WAGONS).new)
+    end
+
+    def train_wagon_delete
+      train = choose(@trains)
+
+      train.detach_wagon(train.wagons.last)
+    end
+
+    def train_route_add
+      choose(@trains).route = choose(@routes)
+    end
+
+    def train_go_forward
+      choose(@trains).go_forward
+    end
+
+    def train_go_back
+      choose(@trains).go_back
+    end
+
+    def type_train_list
+      list(CLASS_TRAINS)
+    end
+
+    def type_wagon_list
+      list(CLASS_WAGONS)
     end
   end
 end
