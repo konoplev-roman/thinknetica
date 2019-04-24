@@ -21,6 +21,10 @@ module Railway
       register_instance
     end
 
+    def self.find(number)
+      @@trains[number]
+    end
+
     def change_speed_by(value)
       @speed += value
 
@@ -79,10 +83,6 @@ module Railway
 
     def to_s
       "#{self.class} #{number}"
-    end
-
-    def self.find(number)
-      @@trains[number]
     end
   end
 end

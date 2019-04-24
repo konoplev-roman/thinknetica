@@ -18,6 +18,10 @@ module Railway
       register_instance
     end
 
+    def self.all
+      @stations
+    end
+
     def take_train(train)
       @trains.push(train)
     end
@@ -32,10 +36,6 @@ module Railway
 
     def to_s
       name
-    end
-
-    def self.all
-      @stations
     end
   end
 end
