@@ -7,7 +7,7 @@ module Railway
 
     attr_reader :number, :speed, :wagons
 
-    @@trains = []
+    @@trains = {}
 
     def initialize(number)
       @number = number
@@ -16,7 +16,7 @@ module Railway
       @wagons = []
       @available_type_wagons = []
 
-      @@trains << self
+      @@trains[@number] = self
 
       register_instance
     end
@@ -82,7 +82,7 @@ module Railway
     end
 
     def self.find(number)
-      @@trains.find { |train| train.number == number }
+      @@trains[number]
     end
   end
 end
