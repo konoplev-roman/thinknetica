@@ -10,6 +10,8 @@ module Railway
 
       @intermediate_stations = []
 
+      validate!
+
       register_instance
     end
 
@@ -27,6 +29,20 @@ module Railway
 
     def to_s
       "from #{stations.first} to #{stations.last}"
+    end
+
+    def valid?
+      validate!
+
+      true
+    rescue RailwayError
+      false
+    end
+
+    private
+
+    def validate!
+      raise RailwayError, 'Only stations can be added to route' unless stations.all? { |s| s.is_a?(Station) }
     end
   end
 end
