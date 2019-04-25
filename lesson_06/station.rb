@@ -13,6 +13,8 @@ module Railway
 
       @trains = []
 
+      validate!
+
       self.class.all << self
 
       register_instance
@@ -36,6 +38,20 @@ module Railway
 
     def to_s
       name
+    end
+
+    def valid?
+      validate!
+
+      true
+    rescue RailwayError
+      false
+    end
+
+    private
+
+    def validate!
+      raise RailwayError, 'Length of the station name must be greater than 0 and not more than 20 characters' unless name.length.between?(1, 20)
     end
   end
 end
