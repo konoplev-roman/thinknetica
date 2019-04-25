@@ -5,6 +5,8 @@ module Railway
     include InstanceCounter
     include Manufacturer
 
+    NUMBER_FORMAT = /^[\d\w]{3}-?[\d\w]{2}$/i.freeze
+
     attr_reader :number, :speed, :wagons
 
     @@trains = {}
@@ -15,6 +17,8 @@ module Railway
 
       @wagons = []
       @available_type_wagons = []
+
+      validate!
 
       @@trains[@number] = self
 
@@ -83,6 +87,21 @@ module Railway
 
     def to_s
       "#{self.class} #{number}"
+    end
+
+    def valid?
+      validate!
+
+      true
+    rescue RailwayError
+      false
+    end
+
+    protected
+
+    def validate!
+      raise RailwayError, 'Train number does not match format' if number !~ NUMBER_FORMAT
+      raise RailwayError, 'Train number must be unique' if @@trains.key?(number)
     end
   end
 end
