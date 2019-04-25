@@ -11,7 +11,7 @@ require_relative 'wagons/passenger_wagon'
 require_relative 'station'
 require_relative 'route'
 
-class CliError < StandardError; end
+class RailwayError < StandardError; end
 
 module Railway
   class Cli
@@ -53,9 +53,9 @@ module Railway
         when 19 then train_route_add
         when 20 then train_go_forward
         when 21 then train_go_back
-        else raise CliError, 'Invalid command'
+        else raise RailwayError, 'Invalid command'
         end
-      rescue CliError => e
+      rescue RailwayError => e
         puts e.message
       end
     end
@@ -117,13 +117,13 @@ module Railway
     end
 
     def choose(collection)
-      raise CliError, 'There are no elements' if collection.empty?
+      raise RailwayError, 'There are no elements' if collection.empty?
 
       list(collection)
 
       object = collection[index]
 
-      raise CliError, 'The selected number does not exist' if object.nil?
+      raise RailwayError, 'The selected number does not exist' if object.nil?
 
       object
     end
