@@ -18,6 +18,10 @@ module Railway
     CLASS_TRAINS = [CargoTrain, PassengerTrain].freeze
     CLASS_WAGONS = [CargoWagon, PassengerWagon].freeze
 
+    ERROR_COMMAND = 'Invalid command'
+    ERROR_NO_ELEMENTS = 'There are no elements'
+    ERROR_SELECT = 'The selected number does not exist'
+
     def initialize
       @stations = []
       @routes = []
@@ -109,11 +113,9 @@ module Railway
     end
 
     def list(collection)
-      if collection.empty?
-        puts 'There are no elements'
-      else
-        collection.each.with_index(1) { |s, i| puts "#{i}. #{s}" }
-      end
+      raise RailwayError, ERROR_NO_ELEMENTS if collection.empty?
+
+      collection.each.with_index(1) { |s, i| puts "#{i}. #{s}" }
     end
 
     def choose(collection)
@@ -123,7 +125,7 @@ module Railway
 
       object = collection[index]
 
-      raise RailwayError, 'The selected number does not exist' if object.nil?
+      raise RailwayError, ERROR_SELECT if object.nil?
 
       object
     end

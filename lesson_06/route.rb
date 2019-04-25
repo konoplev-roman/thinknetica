@@ -4,6 +4,8 @@ module Railway
   class Route
     include InstanceCounter
 
+    ERROR_ROUTE = 'Only stations can be added to route'
+
     def initialize(start_station, end_station)
       @start_station = start_station
       @end_station = end_station
@@ -42,7 +44,7 @@ module Railway
     private
 
     def validate!
-      raise RailwayError, 'Only stations can be added to route' unless stations.all? { |s| s.is_a?(Station) }
+      raise RailwayError, ERROR_ROUTE unless stations.all? { |s| s.is_a?(Station) }
     end
   end
 end

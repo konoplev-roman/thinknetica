@@ -4,6 +4,9 @@ module Railway
   class Station
     include InstanceCounter
 
+    ERROR_NAME = 'Length of the station name must be greater than 0' \
+                 'and not more than 20 characters'
+
     attr_reader :name, :trains
 
     @stations = []
@@ -51,7 +54,7 @@ module Railway
     private
 
     def validate!
-      raise RailwayError, 'Length of the station name must be greater than 0 and not more than 20 characters' unless name.length.between?(1, 20)
+      raise RailwayError, ERROR_NAME unless name.length.between?(1, 20)
     end
   end
 end

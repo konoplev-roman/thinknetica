@@ -7,6 +7,9 @@ module Railway
 
     NUMBER_FORMAT = /^[\d\w]{3}-?[\d\w]{2}$/i.freeze
 
+    ERROR_NUMBER_FORMAT = 'Train number does not match format'
+    ERROR_NUMBER_UNIQ = 'Train number must be unique'
+
     attr_reader :number, :speed, :wagons
 
     @@trains = {}
@@ -100,8 +103,8 @@ module Railway
     protected
 
     def validate!
-      raise RailwayError, 'Train number does not match format' if number !~ NUMBER_FORMAT
-      raise RailwayError, 'Train number must be unique' if @@trains.key?(number)
+      raise RailwayError, ERROR_NUMBER_FORMAT if number !~ NUMBER_FORMAT
+      raise RailwayError, ERROR_NUMBER_UNIQ if @@trains.key?(number)
     end
   end
 end
