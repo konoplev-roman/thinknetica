@@ -4,6 +4,32 @@ module Railway
   class Wagon
     include Manufacturer
 
-    attr_reader :type
+    ERROR_CAPACITY = 'Invalid value for capacity change'
+
+    attr_reader :type, :capacity, :used_capacity
+
+    def initialize(capacity)
+      @capacity = capacity
+
+      @used_capacity = 0
+    end
+
+    def free_capacity
+      capacity - used_capacity
+    end
+
+    protected
+
+    def use_capacity(value)
+      raise ERROR_CAPACITY if value > free_capacity
+
+      @used_capacity += value
+    end
+
+    def release_capacity(value)
+      raise ERROR_CAPACITY if value > used_capacity
+
+      @used_capacity -= value
+    end
   end
 end
