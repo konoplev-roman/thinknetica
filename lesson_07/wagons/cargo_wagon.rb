@@ -5,6 +5,8 @@ module Railway
     alias volume capacity
     alias used_volume used_capacity
     alias free_volume free_capacity
+    alias take_volume use_capacity
+    alias release_volume release_capacity
 
     def initialize(freight_volume)
       super
@@ -14,14 +16,6 @@ module Railway
 
     def self.to_s
       'Cargo'
-    end
-
-    def take_volume(value)
-      use_capacity(value)
-    end
-
-    def release_volume(value)
-      release_capacity(value)
     end
   end
 end

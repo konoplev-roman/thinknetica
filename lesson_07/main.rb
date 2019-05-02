@@ -48,15 +48,18 @@ module Railway
         when 10 then route_station_add
         when 11 then route_station_delete
         when 12 then type_train_list
-        when 13 then type_wagon_list
-        when 14 then trains_list
-        when 15 then train_create
-        when 16 then train_delete
-        when 17 then train_wagon_add
-        when 18 then train_wagon_delete
-        when 19 then train_route_add
-        when 20 then train_go_forward
-        when 21 then train_go_back
+        when 13 then trains_list
+        when 14 then train_create
+        when 15 then train_delete
+        when 16 then train_route_add
+        when 27 then train_go_forward
+        when 28 then train_go_back
+        when 19 then type_wagon_list
+        when 20 then train_wagons_list
+        when 21 then train_wagon_add
+        when 22 then train_wagon_delete
+        when 23 then train_wagon_use_capacity
+        when 24 then train_wagon_release_capacity
         else raise RailwayError, 'Invalid command'
         end
       rescue RailwayError => e
@@ -86,15 +89,19 @@ module Railway
         11 - Delete the station from the route
 
         12 - Show types of trains
-        13 - Show types of wagons
-        14 - Show train list
-        15 - Create train
-        16 - Delete the train
-        17 - To attach the wagon to the train
-        18 - To detach the wagon to the train
-        19 - Set the train to the route
-        20 - To send the train forward
-        21 - To send the train back
+        13 - Show train list
+        14 - Create train
+        15 - Delete the train
+        16 - Set the train to the route
+        17 - To send the train forward
+        18 - To send the train back
+
+        19 - Show types of wagons
+        20 - Show wagons list at the train
+        21 - To attach the wagon to the train
+        22 - To detach the wagon to the train
+        23 - To use capacity from wagon
+        24 - To release capacity from wagon
       HELP
     end
 
@@ -110,6 +117,12 @@ module Railway
       print 'Enter name: '
 
       gets.chomp
+    end
+
+    def capacity
+      print 'Enter capacity: '
+
+      gets.to_i
     end
 
     def list(collection)
@@ -180,6 +193,10 @@ module Railway
       choose(@routes).delete_station(choose(@stations))
     end
 
+    def type_train_list
+      list(CLASS_TRAINS)
+    end
+
     def trains_list
       list(@trains)
     end
@@ -193,13 +210,17 @@ module Railway
     end
 
     def train_wagon_add
-      choose(@trains).attach_wagon(choose(CLASS_WAGONS).new)
+      puts 'Select wagon type and capacity'
+
+      wagon = choose(CLASS_WAGONS).new(capacity)
+
+      choose(@trains).attach_wagon(wagon)
     end
 
     def train_wagon_delete
       train = choose(@trains)
 
-      train.detach_wagon(train.wagons.last)
+      train.detach_wagon(choose(train.wagons))
     end
 
     def train_route_add
@@ -214,12 +235,36 @@ module Railway
       choose(@trains).go_back
     end
 
-    def type_train_list
-      list(CLASS_TRAINS)
-    end
-
     def type_wagon_list
       list(CLASS_WAGONS)
+    end
+
+    def train_wagons_list
+      list(choose(@trains).wagons)
+    end
+
+    def train_wagon_use_capacity
+      train = choose(@trains)
+      wagon = choose(train.wagons)
+
+      case wagon.type
+      when :cargo
+        wagon.use_capacity(capacity)
+      when :passenger
+        wagon.use_capacity
+      end
+    end
+
+    def train_wagon_release_capacity
+      train = choose(@trains)
+      wagon = choose(train.wagons)
+
+      case wagon.type
+      when :cargo
+        wagon.release_capacity(capacity)
+      when :passenger
+        wagon.release_capacity
+      end
     end
   end
 end

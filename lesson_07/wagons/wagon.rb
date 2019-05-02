@@ -18,18 +18,20 @@ module Railway
       capacity - used_capacity
     end
 
-    protected
-
     def use_capacity(value)
-      raise ERROR_CAPACITY if value > free_capacity
+      raise RailwayError, ERROR_CAPACITY if value > free_capacity
 
       @used_capacity += value
     end
 
     def release_capacity(value)
-      raise ERROR_CAPACITY if value > used_capacity
+      raise RailwayError, ERROR_CAPACITY if value > used_capacity
 
       @used_capacity -= value
+    end
+
+    def to_s
+      "#{self.class}; free: #{free_capacity}; used: #{used_capacity}"
     end
   end
 end

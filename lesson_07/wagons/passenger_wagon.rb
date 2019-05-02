@@ -16,12 +16,16 @@ module Railway
       'Passenger'
     end
 
-    def take_seat
-      use_capacity(1)
+    def use_capacity
+      super(1)
     end
 
-    def release_seat
-      release_capacity(1)
+    alias take_seat use_capacity
+
+    def release_capacity
+      super(1)
     end
+
+    alias release_seat release_capacity
   end
 end
