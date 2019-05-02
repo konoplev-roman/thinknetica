@@ -156,11 +156,28 @@ module Railway
     end
 
     def station_trains_list
-      list(choose(@stations).trains)
+      station = choose(@stations)
+
+      station.trains_each do |train, i|
+        puts "#{i}. #{train}"
+
+        puts 'Wagons:'
+
+        train.wagons_each { |wagon, i| puts "#{i}. #{wagon}" }
+      end
     end
 
     def station_trains_list_by_type
-      list(choose(@stations).trains_by(choose(CLASS_TRAINS)))
+      station = choose(@stations)
+      type = choose(CLASS_TRAINS)
+
+      station.trains_each_by(type) do |train, i|
+        puts "#{i}. #{train}"
+
+        puts 'Wagons:'
+
+        train.wagons_each { |wagon, i| puts "#{i}. #{wagon}" }
+      end
     end
 
     def routes_list

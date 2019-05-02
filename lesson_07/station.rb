@@ -51,6 +51,14 @@ module Railway
       false
     end
 
+    def trains_each
+      trains.each.with_index(1) { |train, index| yield(train, index) }
+    end
+
+    def trains_each_by(klass)
+      trains_by(klass).each.with_index(1) { |train, index| yield(train, index) }
+    end
+
     private
 
     def validate!

@@ -100,6 +100,10 @@ module Railway
       false
     end
 
+    def wagons_each
+      @wagons.each.with_index(1) { |wagon, index| yield(wagon, index) }
+    end
+
     protected
 
     def validate!
