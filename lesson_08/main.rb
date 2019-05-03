@@ -18,6 +18,40 @@ module Railway
     CLASS_TRAINS = [CargoTrain, PassengerTrain].freeze
     CLASS_WAGONS = [CargoWagon, PassengerWagon].freeze
 
+    MENU = [
+      { method: :exit, title: 'Exit' },
+
+      { method: :stations_list, title: 'Show station list' },
+      { method: :station_create, title: 'Create station' },
+      { method: :station_delete, title: 'Delete the station' },
+      { method: :station_trains_list, title: 'Show train list at the station' },
+      { method: :station_trains_list_by_type, title: 'Show train list by type at the station' },
+
+      { method: :routes_list, title: 'Show route list' },
+      { method: :route_create, title: 'Create route' },
+      { method: :route_delete, title: 'Delete the route' },
+      { method: :route_stations_list, title: 'Show station list at the route' },
+      { method: :route_station_add, title: 'Add the station to the route' },
+      { method: :route_station_delete, title: 'Delete the station from the route' },
+
+      { method: :type_train_list, title: 'Show types of trains' },
+      { method: :trains_list, title: 'Show train list' },
+      { method: :train_create, title: 'Create train' },
+      { method: :train_delete, title: 'Delete the train' },
+      { method: :train_route_add, title: 'Set the train to the route' },
+      { method: :train_go_forward, title: 'To send the train forward' },
+      { method: :train_go_back, title: 'To send the train back' },
+
+      { method: :type_wagon_list, title: 'Show types of wagons' },
+      { method: :train_wagons_list, title: 'Show wagons list at the train' },
+      { method: :train_wagon_add, title: 'To attach the wagon to the train' },
+      { method: :train_wagon_delete, title: 'To detach the wagon to the train' },
+      { method: :train_wagon_use_capacity, title: 'To use capacity from wagon' },
+      { method: :train_wagon_release_capacity, title: 'To release capacity from wagon' },
+
+      { method: :print_help, title: 'Print help' }
+    ].freeze
+
     ERROR_COMMAND = 'Invalid command'
     ERROR_NO_ELEMENTS = 'There are no elements'
     ERROR_SELECT = 'The selected number does not exist'
@@ -32,36 +66,11 @@ module Railway
       print_help
 
       loop do
-        print "\nSelect number: "
+        print_separator
 
-        case gets.to_i
-        when 0 then break
-        when 1 then stations_list
-        when 2 then station_create
-        when 3 then station_delete
-        when 4 then station_trains_list
-        when 5 then station_trains_list_by_type
-        when 6 then routes_list
-        when 7 then route_create
-        when 8 then route_delete
-        when 9 then route_stations_list
-        when 10 then route_station_add
-        when 11 then route_station_delete
-        when 12 then type_train_list
-        when 13 then trains_list
-        when 14 then train_create
-        when 15 then train_delete
-        when 16 then train_route_add
-        when 27 then train_go_forward
-        when 28 then train_go_back
-        when 19 then type_wagon_list
-        when 20 then train_wagons_list
-        when 21 then train_wagon_add
-        when 22 then train_wagon_delete
-        when 23 then train_wagon_use_capacity
-        when 24 then train_wagon_release_capacity
-        else raise RailwayError, 'Invalid command'
-        end
+        send MENU.fetch(index)[:method]
+      rescue IndexError
+        puts ERROR_SELECT
       rescue RailwayError => e
         puts e.message
       end
@@ -69,43 +78,13 @@ module Railway
 
     private
 
-    def print_help
-      puts <<~HELP
-        List of available commands:
-
-        0 - Exit
-
-        1 - Show station list
-        2 - Create station
-        3 - Delete the station
-        4 - Show train list at the station
-        5 - Show train list by type at the station
-
-        6 - Show route list
-        7 - Create route
-        8 - Delete the route
-        9 - Show station list at the route
-        10 - Add the station to the route
-        11 - Delete the station from the route
-
-        12 - Show types of trains
-        13 - Show train list
-        14 - Create train
-        15 - Delete the train
-        16 - Set the train to the route
-        17 - To send the train forward
-        18 - To send the train back
-
-        19 - Show types of wagons
-        20 - Show wagons list at the train
-        21 - To attach the wagon to the train
-        22 - To detach the wagon to the train
-        23 - To use capacity from wagon
-        24 - To release capacity from wagon
-      HELP
+    def print_separator
+      puts
     end
 
-    # --------------------------------------------------------------------------
+    def print_help
+      MENU.each.with_index(1) { |m, i| puts "#{i}. #{m[:title]}" }
+    end
 
     def index
       print 'Select number: '
@@ -136,11 +115,7 @@ module Railway
 
       list(collection)
 
-      object = collection[index]
-
-      raise RailwayError, ERROR_SELECT if object.nil?
-
-      object
+      collection.fetch(index)
     end
 
     def stations_list
