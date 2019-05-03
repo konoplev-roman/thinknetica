@@ -163,7 +163,7 @@ module Railway
 
         puts 'Wagons:'
 
-        train.wagons_each { |wagon, i| puts "#{i}. #{wagon}" }
+        train.wagons_each { |wagon, j| puts "#{j}. #{wagon}" }
       end
     end
 
@@ -176,7 +176,7 @@ module Railway
 
         puts 'Wagons:'
 
-        train.wagons_each { |wagon, i| puts "#{i}. #{wagon}" }
+        train.wagons_each { |wagon, j| puts "#{j}. #{wagon}" }
       end
     end
 
