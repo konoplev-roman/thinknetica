@@ -12,7 +12,7 @@ module Railway
 
     attr_reader :number, :speed, :wagons
 
-    @@trains = {}
+    @@trains = {} # rubocop:disable Style/ClassVars
 
     def initialize(number)
       @number = number
