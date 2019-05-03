@@ -52,8 +52,8 @@ module Railway
         when 14 then train_create
         when 15 then train_delete
         when 16 then train_route_add
-        when 27 then train_go_forward
-        when 28 then train_go_back
+        when 17 then train_go_forward
+        when 18 then train_go_back
         when 19 then type_wagon_list
         when 20 then train_wagons_list
         when 21 then train_wagon_add
