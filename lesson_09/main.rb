@@ -73,7 +73,7 @@ module Railway
         send MENU.fetch(index)[:method]
       rescue IndexError
         puts ERROR_SELECT
-      rescue RailwayError => e
+      rescue ArgumentError, RailwayError => e
         puts e.message
       end
     end
