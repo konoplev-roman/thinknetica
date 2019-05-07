@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Acсessors
+module Accessors
   def attr_accessor_with_history(*attrs)
     attrs.each do |attr|
       history_attr = "#{attr}_history"
