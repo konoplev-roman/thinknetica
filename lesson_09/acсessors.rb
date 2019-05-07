@@ -20,4 +20,16 @@ module Acсessors
       end
     end
   end
+
+  def strong_attr_accessor(attr, klass)
+    var_attr = "@#{attr}".to_sym
+
+    define_method(attr) { instance_variable_get(var_attr) }
+
+    define_method("#{attr}=".to_sym) do |value|
+      raise ArgumentError, "Argument is not #{klass}" unless value.is_a?(klass)
+
+      instance_variable_set(var_attr, value)
+    end
+  end
 end
