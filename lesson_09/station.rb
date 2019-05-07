@@ -2,12 +2,18 @@
 
 module Railway
   class Station
+    include Validation
     include InstanceCounter
 
-    ERROR_NAME = 'Length of the station name must be greater than 0' \
-                 'and not more than 20 characters'
+    # Length of the station name must be greater than 0
+    # and not more than 20 characters
+    NAME_FORMAT = /^.{1,20}$/.freeze
 
     attr_reader :name, :trains
+
+    validate :name, :presence
+    validate :name, :type, String
+    validate :name, :format, NAME_FORMAT
 
     @stations = []
 
@@ -43,26 +49,12 @@ module Railway
       name
     end
 
-    def valid?
-      validate!
-
-      true
-    rescue RailwayError
-      false
-    end
-
     def trains_each
       trains.each.with_index(1) { |train, index| yield(train, index) }
     end
 
     def trains_each_by(klass)
       trains_by(klass).each.with_index(1) { |train, index| yield(train, index) }
-    end
-
-    private
-
-    def validate!
-      raise RailwayError, ERROR_NAME unless name.length.between?(1, 20)
     end
   end
 end

@@ -2,15 +2,19 @@
 
 module Railway
   class Train
+    include Validation
     include InstanceCounter
     include Manufacturer
 
     NUMBER_FORMAT = /^[\d\w]{3}-?[\d\w]{2}$/i.freeze
 
-    ERROR_NUMBER_FORMAT = 'Train number does not match format'
     ERROR_NUMBER_UNIQ = 'Train number must be unique'
 
     attr_reader :number, :speed, :wagons
+
+    validate :number, :presence
+    validate :number, :type, String
+    validate :number, :format, NUMBER_FORMAT
 
     @@trains = {} # rubocop:disable Style/ClassVars
 
@@ -22,6 +26,8 @@ module Railway
       @available_type_wagons = []
 
       validate!
+
+      raise ArgumentError, ERROR_NUMBER_UNIQ if @@trains.key?(number)
 
       @@trains[@number] = self
 
@@ -92,23 +98,8 @@ module Railway
       "#{self.class} #{number}"
     end
 
-    def valid?
-      validate!
-
-      true
-    rescue RailwayError
-      false
-    end
-
     def wagons_each
       @wagons.each.with_index(1) { |wagon, index| yield(wagon, index) }
-    end
-
-    protected
-
-    def validate!
-      raise RailwayError, ERROR_NUMBER_FORMAT if number !~ NUMBER_FORMAT
-      raise RailwayError, ERROR_NUMBER_UNIQ if @@trains.key?(number)
     end
   end
 end

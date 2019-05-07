@@ -2,6 +2,10 @@
 
 module Railway
   class CargoWagon < Wagon
+    include Validation
+
+    validate :capacity, :type, Numeric
+
     alias volume capacity
     alias used_volume used_capacity
     alias free_volume free_capacity

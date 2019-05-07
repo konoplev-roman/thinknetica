@@ -2,9 +2,11 @@
 
 module Railway
   class Route
+    include Validation
     include InstanceCounter
 
-    ERROR_ROUTE = 'Only stations can be added to route'
+    validate :start_station, :type, Station
+    validate :end_station, :type, Station
 
     def initialize(start_station, end_station)
       @start_station = start_station
@@ -31,20 +33,6 @@ module Railway
 
     def to_s
       "from #{stations.first} to #{stations.last}"
-    end
-
-    def valid?
-      validate!
-
-      true
-    rescue RailwayError
-      false
-    end
-
-    private
-
-    def validate!
-      raise RailwayError, ERROR_ROUTE unless stations.all? { |s| s.is_a?(Station) }
     end
   end
 end

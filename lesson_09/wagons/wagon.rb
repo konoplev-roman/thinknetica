@@ -2,16 +2,21 @@
 
 module Railway
   class Wagon
+    include Validation
     include Manufacturer
 
     ERROR_CAPACITY = 'Invalid value for capacity change'
 
     attr_reader :type, :capacity, :used_capacity
 
+    validate :capacity, :type, Numeric
+
     def initialize(capacity)
       @capacity = capacity
 
       @used_capacity = 0
+
+      validate!
     end
 
     def free_capacity

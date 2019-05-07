@@ -2,6 +2,12 @@
 
 module Railway
   class PassengerTrain < Train
+    include Validation
+
+    validate :number, :presence
+    validate :number, :type, String
+    validate :number, :format, NUMBER_FORMAT
+
     def initialize(number)
       super
 

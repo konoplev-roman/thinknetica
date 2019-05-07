@@ -2,6 +2,10 @@
 
 module Railway
   class PassengerWagon < Wagon
+    include Validation
+
+    validate :capacity, :type, Numeric
+
     alias seats capacity
     alias used_seats used_capacity
     alias free_seats free_capacity
